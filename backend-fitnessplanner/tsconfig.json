@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "target": "ES6",                           // Target compatible con ES6
+    "module": "commonjs",                      // Usar CommonJS como módulo
+    "rootDir": ".",                           // Carpeta raíz del código fuente
+    "outDir": "./dist",                        // Carpeta de salida compilada
+    "esModuleInterop": true,                   // Importación de módulos CommonJS/ES6
+    "strict": true,                            // Activar modo estricto
+    "skipLibCheck": true,                       // Saltar comprobación de archivos de terceros
+    "forceConsistentCasingInFileNames": true
+  }
+}
