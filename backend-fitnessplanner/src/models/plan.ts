@@ -1,7 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import type { Optional } from "sequelize";
 import sequelize from "../config/db";
-import User from "./User";
+import User from "./user";
 
 interface PlanAttributes {
   id: number;

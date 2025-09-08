@@ -14,9 +14,9 @@ const sequelize = new Sequelize(
   }
 );
 // Importar modelos
-import User from "./User";
-import Plan from "./Plan";
-import Event from "./Event";
+import User from "./user";
+import Plan from "./plan";
+import Event from "./event";
 
 // Ejecutar asociaciones
 User.hasMany(Plan, { foreignKey: "userId" });
