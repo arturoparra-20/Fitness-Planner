@@ -1,41 +1,41 @@
+// models/plan.ts
 import { DataTypes, Model } from "sequelize";
-import type { Optional } from "sequelize";
 import sequelize from "../config/db";
 import User from "./user";
 
-interface PlanAttributes {
-  id: number;
-  name: string;
-  description?: string;
-  userId: number;
-}
-
-interface PlanCreationAttributes extends Optional<PlanAttributes, "id"> {}
-
-class Plan extends Model<PlanAttributes, PlanCreationAttributes>
-  implements PlanAttributes {
+class Plan extends Model {
   public id!: number;
-  public name!: string;
-  public description?: string;
   public userId!: number;
+  public mes!: string; // "2025-09"
 }
 
 Plan.init(
   {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    name: { type: DataTypes.STRING, allowNull: false },
-    description: DataTypes.TEXT,
-    userId: { type: DataTypes.INTEGER.UNSIGNED, allowNull: false },
+    mes: DataTypes.STRING,
   },
-  { sequelize, modelName: "Plan" }
+  { sequelize, modelName: "plan" }
 );
 
-// Relación: un User tiene muchos Planes
-User.hasMany(Plan, { foreignKey: "userId" });
-Plan.belongsTo(User, { foreignKey: "userId" });
+class Routine extends Model {
+  public id!: number;
+  public planId!: number;
+  public semana!: number; // 1, 2, 3, 4
+  public dia!: string; // Lunes, Martes, etc.
+  public ejercicios!: string; // JSON string
+}
 
-export default Plan;
+Routine.init(
+  {
+    semana: DataTypes.INTEGER,
+    dia: DataTypes.STRING,
+    ejercicios: DataTypes.TEXT,
+  },
+  { sequelize, modelName: "routine" }
+);
+
+Plan.belongsTo(User, { foreignKey: "userId" });
+User.hasMany(Plan, { foreignKey: "userId" });
+Plan.hasMany(Routine, { foreignKey: "planId" });
+Routine.belongsTo(Plan, { foreignKey: "planId" });
+
+export { Plan, Routine };

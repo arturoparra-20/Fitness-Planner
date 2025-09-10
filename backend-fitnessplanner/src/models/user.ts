@@ -10,6 +10,8 @@ interface UserAttributes {
   objetivo?: string;
   nivel?: string;
   tiempoDisponible?: string;
+  altura?: string;
+  peso?: string;
 }
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
@@ -22,6 +24,8 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public objetivo?: string;
   public nivel?: string;
   public tiempoDisponible?: string;
+  public altura?: string;
+  public peso?: string;
 }
 
 User.init(
@@ -33,6 +37,8 @@ User.init(
     objetivo: { type: DataTypes.STRING },
     nivel: { type: DataTypes.STRING },
     tiempoDisponible: { type: DataTypes.STRING },
+    altura: { type: DataTypes.STRING },
+    peso: { type: DataTypes.STRING },
   },
   {
     sequelize,
