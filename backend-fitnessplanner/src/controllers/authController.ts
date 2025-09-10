@@ -53,7 +53,14 @@ export const register = async (req: Request, res: Response) => {
       text: `Tu código OTP es: ${otp}. Expira en 1 hora.`,
     });
 
-    return res.status(200).json({ message: "OTP enviado a tu correo" });
+      // Generar pendingToken con email para en verifyOtpController solo ingresar el otp por parte del frontend
+    const pendingToken = jwt.sign(
+      { email },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "5m" } // válido solo 5 min
+    );
+
+    return res.status(200).json({ message: "OTP enviado a tu correo", pendingToken });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Error en registro" });
@@ -63,7 +70,11 @@ export const register = async (req: Request, res: Response) => {
 // 🔑 Paso 2: verificar OTP y crear usuario en BD
 export const verifyOtpController = async (req: Request, res: Response) => {
   try {
-    const { email, code } = req.body;
+    const { pendingToken, code } = req.body;
+
+    //validar pendingToken
+    const decoded = jwt.verify(pendingToken, process.env.JWT_SECRET as string) as { email: string };
+    const email = decoded.email;
 
     const pending = pendingUsers[email];
     if (!pending) {

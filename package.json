@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "dayjs": "^1.11.18",
+    "openai": "^5.20.0"
+  }
+}
